@@ -11,10 +11,11 @@ void play_sound(int frequency, int time) {
 
 int main() {
     // Play a sound with frequency 440 Hz
-    for (int i=1; i<100; i++)
+    for (int i=1; i<50; i++)
     {
-        play_sound(rand()*0.1, 100 + rand()%20);
+        play_sound(20 + i, 2000);
         system("cls");
+        Sleep(20);
     }
     return 0;
 }

@@ -13,7 +13,7 @@ int main() {
     // Play a sound with frequency 440 Hz
     for (int i=1; i<100; i++)
     {
-        play_sound(rand()*0.1, 100 + rand()%20);
+        play_sound(20 + i, 400 + rand()%20);
         system("cls");
     }
     return 0;

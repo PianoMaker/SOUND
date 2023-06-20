@@ -20,12 +20,9 @@ void Task(int& frequency, int& time)
 }
 
 int main() {
-    int frequency, int time;
+    int frequency, time;
     Task(frequency, time);
-    for (int i=1; i<100; i++)
-    {
-        Play_sound(frequency, time);
-        system("cls");
-    }
+    Play_sound(frequency, time);
+
     return 0;
 }

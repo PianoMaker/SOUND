@@ -5,24 +5,25 @@ using namespace std;
 
 #pragma comment(lib, "winmm.lib")
 
-void Play_sound(int frequency, int time) {
+void Play_sound(double frequency, int time) {
         std::cout << frequency;
         Beep(frequency, time);
 }
 
-void Task(int& frequency, int& time)
+void Task(double& frequency, int& time)
 {
-    cout << "\nEnter frequency";
+    cout << "Enter frequency\n";
     cin >> frequency;
-    cout << "\nEnter length";
+    cout << "Enter length\n";
     cin >> time;
 
 }
 
 int main() {
-    int frequency, time;
+    double frequency;
+        int time;
+
     Task(frequency, time);
     Play_sound(frequency, time);
-
     return 0;
 }

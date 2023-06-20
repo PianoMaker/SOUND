@@ -1,8 +1,5 @@
 #include <iostream>
 #include <Windows.h>
-#include <mmsystem.h>
-
-#pragma comment(lib, "winmm.lib")
 
 void play_sound(int frequency, int time) {
         std::cout << frequency;

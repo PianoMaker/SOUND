@@ -1,19 +1,30 @@
 #include <iostream>
 #include <Windows.h>
 #include <mmsystem.h>
+using namespace std;
 
 #pragma comment(lib, "winmm.lib")
 
-void play_sound(int frequency, int time) {
+void Play_sound(int frequency, int time) {
         std::cout << frequency;
         Beep(frequency, time);
 }
 
+void Task(int& frequency, int& time)
+{
+    cout << "\nEnter frequency";
+    cin >> frequency;
+    cout << "\nEnter length";
+    cin >> time;
+
+}
+
 int main() {
-    // Play a sound with frequency 440 Hz
+    int frequency, int time;
+    Task(frequency, time);
     for (int i=1; i<100; i++)
     {
-        play_sound(rand()*0.1, 100 + rand()%20);
+        Play_sound(frequency, time);
         system("cls");
     }
     return 0;

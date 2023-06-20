@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <mmsystem.h>
 using namespace std;
+#pragma warning(disable:4996)
 
 #pragma comment(lib, "winmm.lib")
 
@@ -35,6 +36,7 @@ void Play_sound(int frequency, int duration) {
 	{
 		Message("Error", 12); return;
 	}
+	system("cls");
 	Color(PickColor(frequency));
 	cout << frequency;
 	Color(7);
@@ -65,15 +67,23 @@ void AddNote(int& length, int*& frequencies, int newfrequency)
 
 void Text2Numbers(char* freq, int& length, int*& frequencies)
 {
-	char* token = strtok(freq, " ");
+	char* token = strtok(freq, " ,,");
 	AddNote(length, frequencies, atoi(token));
+	
 	while (true)
 	{
 		token = strtok(NULL, " ,");
+		if (token == NULL) break;
 		AddNote(length, frequencies, atoi(token));
-		if (token == NULL)
-			break;
 	}
+}
+
+bool CheckNumbers(char* text)
+{
+	int length = strlen(text);
+	for (int i = 0; i < length; i++)
+		if (isdigit(text[i]) == 0 && text[i] != 32 && text[i] != ',') return false;
+	return true;
 }
 
 
@@ -81,14 +91,24 @@ void MultiTask()
 {
 	char freq[1000];
 	int duration, length=0;
-	int* frequency = new int[length]; 
+	int* frequencies = new int[length]; 
 	cout << "Enter frequencies (separate with comas or space)\n";
+	do
+	{
+	cin.ignore();
 	cin.getline(freq, 1000);
-	Text2Numbers();
+	if (!CheckNumbers(freq)) Message("Incorrect symbols, try again", 12);
+	} while (!CheckNumbers(freq));
+
+	Text2Numbers(freq, length, frequencies);
 	cout << "Enter duration\n";
-	cin >> duration;
+	do
+	{
+		cin >> duration;
+		if (duration < 1) Message("Incorrect duration, try once more", 12);
+	} while (duration < 1);
 	for (int i=0; i<length; i++)
-	Play_sound(frequency[i], duration);
+	Play_sound(frequencies[i], duration);
 	
 }
 
@@ -111,7 +131,7 @@ int main() {
 	switch (mode)
 	{
 	case 1: Task(frequency, duration); break;
-	//case 2: MultiTask(frequency, duration); break;
+	case 2: MultiTask(); break;
 	case 3: ClassicRandom(); break;
 	//case 4: MultiTask(frequency, duration); break;
 	default: cout << "\nnothing to play";

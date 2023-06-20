@@ -15,7 +15,7 @@ void play_sound(int frequency, int time) {
 }
 
 int main() {
-    // Play a sound with frequency 440 Hz
+    // Play a sound with frequency starting from 37 Hz
     for (int i=1; i<100; i++)
     {
         play_sound(37 + i, 2000 + rand()%20);

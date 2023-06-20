@@ -22,7 +22,7 @@ int PickColor(int frequency)
 	else return 14;
 }
 
-void Message(string text, int color)
+void Message(string text, int color=7)
 {
 	Color(color);
 	cout << text;
@@ -37,17 +37,21 @@ void Play_sound(int frequency, int duration) {
 		Message("Error", 12); return;
 	}
 	system("cls");
+	cout << "frequency = ";
 	Color(PickColor(frequency));
 	cout << frequency;
 	Color(7);
+	cout << "\nduration = ";
+	cout << duration;
 	Beep(frequency, duration);
 	system("cls");
 }
 
 
-void Task(int& frequency, int& duration)
+void Task()
 {
-    cout << "Enter frequency\n";
+	int frequency, duration;
+	cout << "Enter frequency\n";
     cin >> frequency;
     cout << "Enter duration\n";
     cin >> duration;
@@ -63,6 +67,18 @@ void AddNote(int& length, int*& frequencies, int newfrequency)
 	delete[] frequencies;
 	frequencies = temp;
 	length++;
+}
+
+int EnterValue(string text, int min=0, int max=INT_MAX)
+{
+	int value;
+	cout << "Enter " << text << endl;
+	do
+	{
+		cin >> value;
+		if (value < min || value > max) Message("Incorrect value, try again!\n", 12);
+	} while (value < min || value > max);
+	return value;
 }
 
 void Text2Numbers(char* freq, int& length, int*& frequencies)
@@ -97,16 +113,11 @@ void MultiTask()
 	{
 	cin.ignore();
 	cin.getline(freq, 1000);
-	if (!CheckNumbers(freq)) Message("Incorrect symbols, try again", 12);
+	if (!CheckNumbers(freq)) Message("Incorrect symbols, try again\n", 12);
 	} while (!CheckNumbers(freq));
 
 	Text2Numbers(freq, length, frequencies);
-	cout << "Enter duration\n";
-	do
-	{
-		cin >> duration;
-		if (duration < 1) Message("Incorrect duration, try once more", 12);
-	} while (duration < 1);
+	duration = EnterValue("duration", 1);
 	for (int i=0; i<length; i++)
 	Play_sound(frequencies[i], duration);
 	
@@ -121,24 +132,45 @@ void ClassicRandom()
 	}
 }
 
+void MultiRandom()
+{
+	int fmin, fmax, tmin, tmax, sounds;
+	fmin = EnterValue("mininal frequency (>20)", 20, 20000);
+	fmax = EnterValue("maximum frequency", fmin, 20000);
+	tmin = EnterValue("minimum duration (>10)", 10);
+	tmax = EnterValue("maximum duration", tmin);
+	sounds = EnterValue("number of notes", 1);
+	
+	for (int i = 0; i < sounds; i++) 
+	{
+		Play_sound(rand()%(fmax - fmin) + fmin, rand()%(tmax - tmin) + tmin);
+		//cout << rand() % (tmax - tmin) + fmin;
+	}
+}
+
+
 
 
 int main() {
-    int frequency, duration, mode;
-	Message("Choose mode\n", 11);
-	Message("\n1 - single sound, \n2 - group of sounds, \n3 - classic random composition, \n4 - random with parametres, \n0 - exit\n", 7);
-	cin >> mode;
-	switch (mode)
+    int mode, oncemore;
+	do
 	{
-	case 1: Task(frequency, duration); break;
-	case 2: MultiTask(); break;
-	case 3: ClassicRandom(); break;
-	//case 4: MultiTask(frequency, duration); break;
-	default: cout << "\nnothing to play";
-	};
+		Message("Choose mode\n", 11);
+		Message("\n1 - single sound, \n2 - group of sounds, \n3 - classic random composition, \n4 - random with parametres, \n5 - gradual, \n0 - exit\n", 7);
+		cin >> mode;
+		switch (mode)
+		{
+		case 1: Task(); break;
+		case 2: MultiTask(); break;
+		case 3: ClassicRandom(); break;
+		case 4: MultiRandom(); break;
+		default: Message("\nnothing to play", 4);
+		};
+		Message("\nDo you want to try again?", 11);
+		cout << "\n1 - yes, 0 - exit\n";
+		cin >> oncemore;
+	}while(oncemore);
 
-
-    
-
+	Message("\nThank you for using our programm!", 10);
     return 0;
 }
